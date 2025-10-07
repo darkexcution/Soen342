@@ -24,6 +24,22 @@ public class TrainConnection {
         this.secondClassTicketRate=secondClassTicketRate;
     }
 
+    public String getDuration() {
+        int departure = Integer.parseInt(departureTime.substring(0, 2)) * 60 + Integer.parseInt(departureTime.substring(3, 5));
+        int arrival = Integer.parseInt(arrivalTime.substring(0, 2)) * 60 + Integer.parseInt(arrivalTime.substring(3, 5));
+        int duration=0;
+
+        if (arrivalTime.substring(5).equals(" (+1d)")) {
+            arrival=arrival+1440;
+        }
+        
+        duration=arrival-departure;
+        String hour = Integer.toString(duration/60); // If same format
+        String minute = Integer.toString(duration%60); 
+        return (hour+":"+minute);
+    }
+
+
     //Show all info on connection
     public String toString() {
         return (routeID+", "+departureCity+", "+arrivalCity+", "+departureTime+", "+arrivalTime+", "+trainType+", "+daysOfOperation+", "+firstClassTicketRate+", "+secondClassTicketRate);
