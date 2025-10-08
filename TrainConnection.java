@@ -39,6 +39,17 @@ public class TrainConnection {
         return (hour+":"+minute);
     }
 
+    // Returns minutes in integer
+    public int getDurationMinutes() {
+        String durationStr = getDuration();
+        String[] timeParts = durationStr.split(":");
+
+        int hours = Integer.parseInt(timeParts[0].trim());
+        int minutes = Integer.parseInt(timeParts[1].trim());
+
+        return hours * 60 + minutes;
+    }
+
 
     //Show all info on connection
     public String toString() {
