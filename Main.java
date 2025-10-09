@@ -14,6 +14,14 @@ public class Main {
         TrainConnection connection = list.get(11);
         System.out.println(connection.toString()); //Show info connection
         System.out.println(connection.getDuration()); //Show duration
+
+
+        TripBuilder builder = new TripBuilder();
+        List<Trip> trips = builder.buildTrips(list, "Aalborg", "Lund");
+        for(Trip t: trips){
+            System.out.println(t);
+            System.out.println(t.getTotalDuration());
+        }
     }
 
 }
