@@ -87,8 +87,8 @@ public class Main {
             if (results.isEmpty()) {
 
                 if ( depCity != null && arrCity != null) {
-                    TripBuilder tripBuilder = new TripBuilder();
-                    List<Trip> trips = tripBuilder.buildTrips(list, depCity, arrCity);
+                    MultipleStopsBuilder  tripBuilder = new MultipleStopsBuilder ();
+                    List<MultipleStopsMetrics> trips = tripBuilder.buildTrips(list, depCity, arrCity);
 
                     if (!trips.isEmpty()) {
                         System.out.println("Would you like to sort the results?");
@@ -127,7 +127,7 @@ public class Main {
 
                             System.out.println("\n======= Multi-leg Trips =======");
                             int count = 1;
-                            for (Trip t : trips) {
+                            for (MultipleStopsMetrics t : trips) {
                                 System.out.println("Trip " + count + ":");
                                 for (TrainConnection c : t.getConnections()) {
                                     System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity()
