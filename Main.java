@@ -90,6 +90,8 @@ public class Main {
 
 
             System.out.println("\nSearch results found: " + results.size());
+            System.out.println("\n======= Train Connections =======");
+            displayResultsAsTable(results);
 
             System.out.println("\n");
 
