@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trip {
+public class MultipleStopsMetrics {
 
     List <TrainConnection> connections;
     
 
-    public Trip(){
+    public MultipleStopsMetrics(){
         this.connections = new ArrayList<>();
     }
 
