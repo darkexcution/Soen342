@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Console {
 
     //Test
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Main {
         System.out.println("Welcome to the Train Route Search and Scheduling System!");
         System.out.println("----------------------------------------------------------");
         System.out.println("\n");
-        System.out.println("Main Menu");
+        System.out.println("Console Menu");
         System.out.println("----------------------------------------------------------");
 
         System.out.println("1. Search Train Routes");
