@@ -29,7 +29,7 @@ public class SearchConnection {
 
             if (matchFound) results.add(connection);
         }
-
+        
         return results;
     }
 }
