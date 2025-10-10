@@ -111,12 +111,15 @@ public class Main {
                     switch (choice) {
                         case "1":
                             ConnectionSorter.sortByDuration(results);
+                            System.out.println("\nDiaplaying results sorted by duration:");
                             break;
                         case "2":
                             ConnectionSorter.sortByFirstClassPrice(results);
+                            System.out.println("\nDiaplaying results sorted by First Class Price:");
                             break;
                         case "3":
                             ConnectionSorter.sortBySecondClassPrice(results);
+                            System.out.println("\nDiaplaying results sorted by Second Class Price:");
                             break;
                         default:
                             System.out.println("Invalid choice. Showing unsorted results:");
