@@ -3,13 +3,7 @@ import java.util.List;
 
 public class TripBuilder {
     
-
-    public TripBuilder(){
-        
-    }
-    
-
-    public List <Trip> buildTrips (List <TrainConnection> connections, String departure, String arrival){
+    public static List <Trip> buildTrips (List <TrainConnection> connections, String departure, String arrival){
         List <Trip> trips = new ArrayList<>();
 
         //logic for direct connection
@@ -19,6 +13,10 @@ public class TripBuilder {
                 t.addConnection(conn);
                 trips.add(t);
             }
+        }
+
+        if (!trips.isEmpty()) {
+            return trips;
         }
 
         //logic for a->b->c connection

@@ -13,6 +13,9 @@ public class Trip {
     public void addConnection(TrainConnection conn){
         connections.add(conn);
     }
+    public List<TrainConnection> getConnections() {
+        return connections;
+    }
 
     public String getTotalDuration(){
         int total=0;
@@ -51,6 +54,12 @@ public class Trip {
 
     public double getTotalPrice(String classType){
         double total=0.0;
+        for(TrainConnection conn : connections){
+            if("first".equalsIgnoreCase(classType)){
+                total += conn.getFirstClassTicketRate();
+            }else
+            total += conn.getSecondClassTicketRate();
+        }
         
         return total;
     }

@@ -16,6 +16,7 @@ public class Main {
         //System.out.println(connection.toString()); //Show info connection
         //System.out.println(connection.getDuration()); //Show duration
 
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n");
         System.out.println("Welcome to the Train Route Search and Scheduling System!");
@@ -84,10 +85,69 @@ public class Main {
             );
 
             if (results.isEmpty()) {
-                System.out.println("No connections found with the given parameters.");
-                return;
-            }
 
+                if ( depCity != null && arrCity != null) {
+                    TripBuilder tripBuilder = new TripBuilder();
+                    List<Trip> trips = tripBuilder.buildTrips(list, depCity, arrCity);
+
+                    if (!trips.isEmpty()) {
+                        System.out.println("Would you like to sort the results?");
+                        System.out.print("Enter 'y' for yes or 'n' for no: ");
+                        String sortChoice = scanner.nextLine();
+
+                        if (sortChoice.equalsIgnoreCase("y")) {
+                            System.out.println("Sort results by:");
+                            System.out.println("1: Duration");
+                            System.out.println("2: First Class Price");
+                            System.out.println("3: Second Class Price");
+                            System.out.print("Enter choice (1-3): ");
+                            String choice = scanner.nextLine();
+
+                            switch (choice) {
+                                case "1":
+                                    trips.sort((t1, t2) -> {
+                                        String[] d1 = t1.getTotalDuration().split(":");
+                                        String[] d2 = t2.getTotalDuration().split(":");
+                                        int minutes1 = Integer.parseInt(d1[0]) * 60 + Integer.parseInt(d1[1]);
+                                        int minutes2 = Integer.parseInt(d2[0]) * 60 + Integer.parseInt(d2[1]);
+                                        return minutes1 - minutes2;
+                                    });
+                                    
+                                    break;
+                                case "2":
+                                    trips.sort((t1, t2) -> Double.compare(t1.getTotalPrice("first"), t2.getTotalPrice("first")));
+                                    break;
+                                case "3":
+                                    trips.sort((t1, t2) -> Double.compare(t1.getTotalPrice("second"), t2.getTotalPrice("second")));
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Showing unsorted results:");
+                            }
+
+
+                            System.out.println("\n======= Multi-leg Trips =======");
+                            int count = 1;
+                            for (Trip t : trips) {
+                                System.out.println("Trip " + count + ":");
+                                for (TrainConnection c : t.getConnections()) {
+                                    System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity()
+                                        + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
+                                }
+                                System.out.println("  Total Duration: " + t.getTotalDuration());
+                                System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
+                                System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
+                                System.out.println();
+                                count++;
+                            }
+    
+                        }else {
+                        System.out.println("\nNo routes found (direct or connected).");
+                        return;
+                        }
+                    }
+                }
+            }
+            
 
             System.out.println("\nSearch results found: " + results.size());
 
@@ -135,7 +195,7 @@ public class Main {
         }
 
 
-    }
+    }  
 
     public static void displayResultsAsTable(List<TrainConnection> results) {
         System.out.printf("%-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n",
