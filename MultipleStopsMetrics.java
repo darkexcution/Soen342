@@ -29,25 +29,44 @@ public class MultipleStopsMetrics {
             int minutes = Integer.parseInt(timeParts[1].trim());
             int times = hours*60 + minutes;
              total+=times;
+        
+        }
+        String hour = Integer.toString(total/60); // If same format
+        String minute = Integer.toString(total%60); 
+        return (hour+":"+minute);
+    }
 
+    public String getLayover(){
+
+        int total=0;
+        for(int i =0; i<connections.size(); i++){
+            TrainConnection c =connections.get(i);
             if(i<connections.size()-1){
                 TrainConnection next =connections.get(i+1);
                 
                 int arrival = Integer.parseInt(c.getArrivalTime().substring(0, 2)) * 60 + Integer.parseInt(c.getArrivalTime().substring(3, 5));
                 int departure = Integer.parseInt(next.getDepartureTime().substring(0, 2)) * 60 + Integer.parseInt(c.getDepartureTime().substring(3, 5));
                 
-                if(arrival>departure){
+                if(arrival<departure){
                     arrival += 1440;
                 }
                 int layover= arrival-departure;
 
                 total+=layover;
             }
-        
+
         }
+
+
         String hour = Integer.toString(total/60); // If same format
         String minute = Integer.toString(total%60); 
-        return (hour+":"+minute);
+        if (total%60<10) {
+            return (hour+":0"+minute);
+        }
+        else {
+            return (hour+":"+minute);
+        }
+
     }
 
     
