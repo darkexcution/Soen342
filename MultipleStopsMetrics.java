@@ -33,7 +33,12 @@ public class MultipleStopsMetrics {
         }
         String hour = Integer.toString(total/60); // If same format
         String minute = Integer.toString(total%60); 
-        return (hour+":"+minute);
+        if (total%60<10) {
+            return (hour+":0"+minute);
+        }
+        else {
+            return (hour+":"+minute);
+        }
     }
 
     public String getLayover(){
@@ -67,6 +72,27 @@ public class MultipleStopsMetrics {
             return (hour+":"+minute);
         }
 
+    }
+
+    public String getTotalTime() {
+    
+        String[] durationParts = getTotalDuration().split(":");
+        int durationMinutes = Integer.parseInt(durationParts[0]) * 60 + Integer.parseInt(durationParts[1]);
+
+    
+        String[] layoverParts = getLayover().split(":");
+        int layoverMinutes = Integer.parseInt(layoverParts[0]) * 60 + Integer.parseInt(layoverParts[1]);
+
+        int totalMinutes = durationMinutes + layoverMinutes;
+
+        int hour = totalMinutes / 60;
+        int minute = totalMinutes % 60;
+        if (totalMinutes%60<10) {
+            return (hour+":0"+minute);
+        }
+        else {
+            return (hour+":"+minute);
+        }
     }
 
     
