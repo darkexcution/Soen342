@@ -106,8 +106,8 @@ public class Console {
                             switch (choice) {
                                 case "1":
                                     trips.sort((t1, t2) -> {
-                                        String[] d1 = t1.getTotalDuration().split(":");
-                                        String[] d2 = t2.getTotalDuration().split(":");
+                                        String[] d1 = t1.getTotalTime().split(":");
+                                        String[] d2 = t2.getTotalTime().split(":");
                                         int minutes1 = Integer.parseInt(d1[0]) * 60 + Integer.parseInt(d1[1]);
                                         int minutes2 = Integer.parseInt(d2[0]) * 60 + Integer.parseInt(d2[1]);
                                         return minutes1 - minutes2;
@@ -133,6 +133,7 @@ public class Console {
                                     System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity()
                                         + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
                                 }
+                                System.out.println("  Total Time: " + t.getTotalTime());
                                 System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
                                 System.out.println("  Total layover: " + t.getLayover());
                                 System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
