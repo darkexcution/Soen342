@@ -16,7 +16,6 @@ public class Console {
         //System.out.println(connection.toString()); //Show info connection
         //System.out.println(connection.getDuration()); //Show duration
 
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n");
         System.out.println("Welcome to the Train Route Search and Scheduling System!");
