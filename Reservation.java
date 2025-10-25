@@ -1,16 +1,32 @@
-public class Reservation {
-    String travellerName;
-    int travellerAge;
-    String travellerId;
-    TrainConnection connection;
-    Ticket ticket;
+import java.util.ArrayList;
 
-    Ticket getTicket() {
+public class Reservation {
+
+    private Client client;
+    private ArrayList<TrainConnection> connections;
+    private Ticket ticket;
+
+    public Reservation (Client client, ArrayList <TrainConnection> connections, Ticket ticket) {
+        this.client = client;
+        this.connections=connections;
+        this.ticket=ticket;
+    }
+
+
+    public Client getClient() {
+        return client;
+    }
+
+    public ArrayList<TrainConnection> getConnections() {
+        return connections;
+    }
+
+    public Ticket getTicket() {
         return ticket;
     }
 
-    String getTravellerName() {
-        return travellerName;
+    public void setTicket(Ticket ticket) {
+        this.ticket=ticket;
     }
 
 }
