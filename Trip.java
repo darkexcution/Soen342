@@ -1,16 +1,28 @@
-import java.lang.invoke.StringConcatFactory;
+
 import java.util.ArrayList;
 
 public class Trip {
 
-    String tripId;
-    ArrayList<Reservation> reservations;
+    private int tripId;
+    private ArrayList<Reservation> reservations;
 
-    public void addReservation(Reservation reservation) {}
+    public Trip (int tripId, ArrayList<Reservation> reservations) {
+        this.tripId=tripId;
+        this.reservations=reservations;
+    }
 
-    String  getTripId() {
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
+
+    public int getTripId() {
         return tripId;
     }
 
-    //public ArrayList<Reservation> getReservations(){}
+    public void setTripId(int id) {
+        tripId=id;
+    }
+
+
+    public ArrayList<Reservation> getReservations(){return reservations;}
 }
