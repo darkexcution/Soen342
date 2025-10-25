@@ -15,6 +15,31 @@ public class Console {
         TrainConnection connection = list.get(11);
         //System.out.println(connection.toString()); //Show info connection
         //System.out.println(connection.getDuration()); //Show duration
+        /*
+        Client client1 = new Client("Doe", "John", 30, 1);
+        Client client2 = new Client("John", "Cena", 31, 2);
+        ClientDAO cd = new ClientDAO();
+        client1=cd.insert(client1);
+        client2=cd.insert(client2);
+        System.out.println(client1.getID());
+
+        ArrayList<TrainConnection> route = new ArrayList<>();
+        route.add(list.get(6));
+        route.add(list.get(8));
+        Ticket ticket1 = new Ticket(1);
+        Reservation reservation1 = new Reservation(client1, route, ticket1);
+        Ticket ticket2 = new Ticket(2);
+        Reservation reservation2 = new Reservation(client2, route, ticket2);
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        ReservationDAO rd = new ReservationDAO();
+        reservation1=rd.insert(reservation1);
+        reservation2=rd.insert(reservation2);
+        reservations.add(reservation1);
+        reservations.add(reservation2);
+        Trip trip1 = new Trip(1, reservations);
+        TripDAO td = new TripDAO();
+        trip1 = td.insert(trip1);
+         */
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n");

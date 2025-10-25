@@ -5,7 +5,7 @@ import java.sql.Statement;
 
 public class ClientDAO {
 
-    public void insert(Client client) {
+    public Client insert(Client client) {
         String sql = "INSERT INTO public.client (first_name, last_name, age) VALUES (?, ?, ?)";
         try (Connection dbConn = Database.getConnection();
              PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -26,5 +26,6 @@ public class ClientDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return client;
     }
 }
