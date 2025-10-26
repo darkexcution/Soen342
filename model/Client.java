@@ -33,4 +33,10 @@ public class Client {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString() {
+        return "Client - firstName: " + firstName +
+                ", lastName: " + lastName +
+                ", age: " + age;
+    }
 }
