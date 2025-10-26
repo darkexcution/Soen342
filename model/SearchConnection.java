@@ -1,10 +1,12 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchConnection {
 
     // Searches for train connections between two cities with the parameters set by the user.
-    // returns a list of TrainConnection objects that match the criteria
+    // returns a list of model.TrainConnection objects that match the criteria
     public static List<TrainConnection> searchConnection(List<TrainConnection> connections,
                                                          String departureCity,
                                                          String arrivalCity,
