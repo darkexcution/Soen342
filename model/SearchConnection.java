@@ -7,7 +7,7 @@ public class SearchConnection {
 
     // Searches for train connections between two cities with the parameters set by the user.
     // returns a list of model.TrainConnection objects that match the criteria
-    public static List<TrainConnection> searchConnection(List<TrainConnection> connections,
+    public static List<MultipleStopsMetrics> searchConnection(List<TrainConnection> connections,
                                                          String departureCity,
                                                          String arrivalCity,
                                                          String departureTime,
@@ -16,7 +16,7 @@ public class SearchConnection {
                                                          String daysOfOperation,
                                                          Double firstClassTicketPrice,
                                                          Double secondClassTicketPrice) {
-        List<TrainConnection> results = new ArrayList<>();
+        List<MultipleStopsMetrics> results = new ArrayList<>();
         for (TrainConnection connection : connections) {
             boolean matchFound = true;
 
@@ -29,7 +29,11 @@ public class SearchConnection {
             if (firstClassTicketPrice != null && connection.getFirstClassTicketRate() != firstClassTicketPrice) matchFound = false;
             if (secondClassTicketPrice != null && connection.getSecondClassTicketRate() != secondClassTicketPrice) matchFound = false;
 
-            if (matchFound) results.add(connection);
+            if (matchFound) {
+                MultipleStopsMetrics result = new MultipleStopsMetrics();
+                result.addConnection(connection);
+                results.add(result);
+            }
         }
         
         return results;

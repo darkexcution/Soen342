@@ -90,7 +90,7 @@ public class MainMenuUI {
 
         Scanner scanner = new Scanner(System.in);
 
-        List<TrainConnection> results = SearchConnection.searchConnection(
+        List<MultipleStopsMetrics> results = SearchConnection.searchConnection(
                 list,
                 filter.depCity,
                 filter.arrCity,
@@ -110,151 +110,151 @@ public class MainMenuUI {
 
             if (displayIndirectConnectionsChoice.equals("y") && filter.depCity != null && filter.arrCity != null) {
                 MultipleStopsBuilder tripBuilder = new MultipleStopsBuilder();
-                List<MultipleStopsMetrics> trips = tripBuilder.buildTrips(list, filter.depCity, filter.arrCity);
-
-                if (!trips.isEmpty()) {
-                    System.out.println("\nWould you like to sort the results?");
-                    System.out.print("Enter 'y' for yes or 'n' for no: ");
-                    String sortChoice = scanner.nextLine();
-
-                    if (sortChoice.equalsIgnoreCase("y")) {
-                        System.out.println("Sort results by:");
-                        System.out.println("1: Duration");
-                        System.out.println("2: First Class Price");
-                        System.out.println("3: Second Class Price");
-                        System.out.print("Enter choice (1-3): ");
-                        String choice = scanner.nextLine();
-
-                        switch (choice) {
-                            case "1":
-                                trips.sort((t1, t2) -> {
-                                    String[] d1 = t1.getTotalTime().split(":");
-                                    String[] d2 = t2.getTotalTime().split(":");
-                                    int minutes1 = Integer.parseInt(d1[0]) * 60 + Integer.parseInt(d1[1]);
-                                    int minutes2 = Integer.parseInt(d2[0]) * 60 + Integer.parseInt(d2[1]);
-                                    return minutes1 - minutes2;
-                                });
-
-                                break;
-                            case "2":
-                                trips.sort((t1, t2) -> Double.compare(t1.getTotalPrice("first"), t2.getTotalPrice("first")));
-                                break;
-                            case "3":
-                                trips.sort((t1, t2) -> Double.compare(t1.getTotalPrice("second"), t2.getTotalPrice("second")));
-                                break;
-                            default:
-                                System.out.println("Invalid choice. Showing unsorted results:");
-                        }
-
-
-                        System.out.println("\n======= Multi-Connections Trips =======");
-                        int count = 1;
-                        for (MultipleStopsMetrics t : trips) {
-                            System.out.println("Trip No.: " + count);
-                            for (TrainConnection c : t.getConnections()) {
-                                System.out.println("  Route " + c.getRouteID() + ": "
-                                        + c.getDepartureCity() + " -> " + c.getArrivalCity()
-                                        + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
-                            }
-                            System.out.println("  Total Time: " + t.getTotalTime());
-                            System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
-                            System.out.println("  Total layover: " + t.getLayover());
-                            System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
-                            System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
-                            System.out.println();
-                            count++;
-                        }
-
-                    }
-                    if (sortChoice.equalsIgnoreCase("n")) {
-                        System.out.println("\n======= Multi-Connections Trips =======");
-                        int count = 1;
-                        for (MultipleStopsMetrics t : trips) {
-                            System.out.println("Trip No.: " + count);
-                            for (TrainConnection c : t.getConnections()) {
-                                System.out.println("  Route " + c.getRouteID() + ": "
-                                        + c.getDepartureCity() + " -> " + c.getArrivalCity()
-                                        + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
-                            }
-                            System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
-                            System.out.println("  Total layover: " + t.getLayover());
-                            System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
-                            System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
-                            System.out.println();
-                            count++;
-                        }
-                    }
-
-                } else {
-                    System.out.println("\nNo routes found (direct or connected).");
-                    System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
-
-                }
+                results = tripBuilder.buildTrips(list, filter.depCity, filter.arrCity);
 
 
             } else {
                 System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
             }
+        }
+        if (!results.isEmpty()) {
+            System.out.println("\nWould you like to sort the results?");
+            System.out.print("Enter 'y' for yes or 'n' for no: ");
+            String sortChoice = scanner.nextLine();
 
-        } else {
+            if (sortChoice.equalsIgnoreCase("y")) {
+                System.out.println("Sort results by:");
+                System.out.println("1: Duration");
+                System.out.println("2: First Class Price");
+                System.out.println("3: Second Class Price");
+                System.out.print("Enter choice (1-3): ");
+                String choice = scanner.nextLine();
+
+                switch (choice) {
+                    case "1":
+                        results.sort((t1, t2) -> {
+                            String[] d1 = t1.getTotalTime().split(":");
+                            String[] d2 = t2.getTotalTime().split(":");
+                            int minutes1 = Integer.parseInt(d1[0]) * 60 + Integer.parseInt(d1[1]);
+                            int minutes2 = Integer.parseInt(d2[0]) * 60 + Integer.parseInt(d2[1]);
+                            return minutes1 - minutes2;
+                        });
+
+                        break;
+                    case "2":
+                        results.sort((t1, t2) -> Double.compare(t1.getTotalPrice("first"), t2.getTotalPrice("first")));
+                        break;
+                    case "3":
+                        results.sort((t1, t2) -> Double.compare(t1.getTotalPrice("second"), t2.getTotalPrice("second")));
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Showing unsorted results:");
+                }
 
 
-            System.out.println("\nSearch results found: " + results.size());
-            System.out.println("\n======= Train Connections =======");
-            displayResultsAsTable(results);
-
-            System.out.println("\n");
-
-            if (!results.isEmpty()) {
-                System.out.println("Would you like to sort the results?");
-                System.out.print("Enter 'y' for yes or 'n' for no: ");
-                String sortChoice = scanner.nextLine();
-
-                if (sortChoice.equalsIgnoreCase("y")) {
-                    System.out.println("Sort results by:");
-                    System.out.println("1: Duration");
-                    System.out.println("2: First Class Price");
-                    System.out.println("3: Second Class Price");
-                    System.out.print("Enter choice (1-3): ");
-                    String choice = scanner.nextLine();
-
-                    switch (choice) {
-                        case "1":
-                            ConnectionSorter.sortByDuration(results);
-                            System.out.println("\nDiaplaying results sorted by duration:");
-                            break;
-                        case "2":
-                            ConnectionSorter.sortByFirstClassPrice(results);
-                            System.out.println("\nDiaplaying results sorted by First Class Price:");
-                            break;
-                        case "3":
-                            ConnectionSorter.sortBySecondClassPrice(results);
-                            System.out.println("\nDiaplaying results sorted by Second Class Price:");
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Showing unsorted results:");
+                System.out.println("\n======= Connections Trips =======");
+                int count = 1;
+                for (MultipleStopsMetrics t : results) {
+                    System.out.println("Trip No.: " + count);
+                    for (TrainConnection c : t.getConnections()) {
+                        System.out.println("  Route " + c.getRouteID() + ": "
+                                + c.getDepartureCity() + " -> " + c.getArrivalCity()
+                                + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
                     }
-                    System.out.println("\n======= Train Connections =======");
-                    displayResultsAsTable(results);
+                    System.out.println("  Total Time: " + t.getTotalTime());
+                    System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
+                    System.out.println("  Total layover: " + t.getLayover());
+                    System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
+                    System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
+                    System.out.println();
+                    count++;
+                }
 
-                } else {
-                    System.out.println("\n======= Train Connections =======");
-                    displayResultsAsTable(results);
-
+            }
+            if (sortChoice.equalsIgnoreCase("n")) {
+                System.out.println("\n======= Connections Trips =======");
+                int count = 1;
+                for (MultipleStopsMetrics t : results) {
+                    System.out.println("Trip No.: " + count);
+                    for (TrainConnection c : t.getConnections()) {
+                        System.out.println("  Route " + c.getRouteID() + ": "
+                                + c.getDepartureCity() + " -> " + c.getArrivalCity()
+                                + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
+                    }
+                    System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
+                    System.out.println("  Total layover: " + t.getLayover());
+                    System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
+                    System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
+                    System.out.println();
+                    count++;
                 }
             }
+            BookingUI bookingUI = new BookingUI();
+            List<String> chosenTripRoute = bookingUI.askToBookTrip(results);
+        } else {
+            System.out.println("\nNo routes found (direct or connected).");
+            System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
+
         }
+//        } else {
+//
+//
+//            System.out.println("\nSearch results found: " + results.size());
+//            System.out.println("\n======= Train Connections =======");
+//            displayResultsAsTable(results);
+//
+//            System.out.println("\n");
+//
+//            if (!results.isEmpty()) {
+//                System.out.println("Would you like to sort the results?");
+//                System.out.print("Enter 'y' for yes or 'n' for no: ");
+//                String sortChoice = scanner.nextLine();
+//
+//                if (sortChoice.equalsIgnoreCase("y")) {
+//                    System.out.println("Sort results by:");
+//                    System.out.println("1: Duration");
+//                    System.out.println("2: First Class Price");
+//                    System.out.println("3: Second Class Price");
+//                    System.out.print("Enter choice (1-3): ");
+//                    String choice = scanner.nextLine();
+//
+//                    switch (choice) {
+//                        case "1":
+//                            ConnectionSorter.sortByDuration(results);
+//                            System.out.println("\nDiaplaying results sorted by duration:");
+//                            break;
+//                        case "2":
+//                            ConnectionSorter.sortByFirstClassPrice(results);
+//                            System.out.println("\nDiaplaying results sorted by First Class Price:");
+//                            break;
+//                        case "3":
+//                            ConnectionSorter.sortBySecondClassPrice(results);
+//                            System.out.println("\nDiaplaying results sorted by Second Class Price:");
+//                            break;
+//                        default:
+//                            System.out.println("Invalid choice. Showing unsorted results:");
+//                    }
+//                    System.out.println("\n======= Train Connections =======");
+//                    displayResultsAsTable(results);
+//
+//                } else {
+//                    System.out.println("\n======= Train Connections =======");
+//                    displayResultsAsTable(results);
+//
+//                }
+//            }
+//        }
     }
 
-    public static void displayResultsAsTable(List<TrainConnection> results) {
+    public static void displayResultsAsTable(List<MultipleStopsMetrics> results) {
         System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n", "Trip No.",
                 "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
                 "TrainType", "Days", "1st Class", "2nd Class");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         int countResults = 1;
-
-        for (TrainConnection c : results) {
+        List<TrainConnection> result = new ArrayList<>();
+        for (TrainConnection c : result) {
             System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n",
                     countResults,
                     c.getRouteID(),

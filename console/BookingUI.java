@@ -3,10 +3,7 @@ package console;
 import dao.ClientDAO;
 import dao.ReservationDAO;
 import dao.TicketDAO;
-import model.Client;
-import model.Reservation;
-import model.Ticket;
-import model.TrainConnection;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.Scanner;
 
 public class BookingUI {
 
-    public List<String> askToBookTrip() {
+    public List<String> askToBookTrip(List<MultipleStopsMetrics> results) {
         Scanner scanner = new Scanner(System.in);
         List<String> selectedRouteIds = new ArrayList<>();
 
@@ -27,22 +24,31 @@ public class BookingUI {
         }
 
         System.out.println("\n=== Trip Booking ===");
-        System.out.println("\nWill your trip include stops in-between the source and destination?");
-        System.out.print("Enter 'y' for yes or 'n' for no: ");
-        String hasStops = scanner.nextLine();
+//        System.out.println("\nWill your trip include stops in-between the source and destination?");
+//        System.out.print("Enter 'y' for yes or 'n' for no: ");
+//        String hasStops = scanner.nextLine();
+//
+//        if (hasStops.equalsIgnoreCase("y")) {
+//            System.out.println("Enter the route IDs for each leg of your trip, separated by commas (e.g., R101,R203):");
+//            String routeIdsInput = scanner.nextLine();
+//            String[] routeIds = routeIdsInput.split(",");
+//            for (String id : routeIds) {
+//                selectedRouteIds.add(id.trim());
+//            }
+//        } else {
+//            System.out.print("Enter the route ID for your direct trip: ");
+//            String routeId = scanner.nextLine();
+//            selectedRouteIds.add(routeId.trim());
+//        }
 
-        if (hasStops.equalsIgnoreCase("y")) {
-            System.out.println("Enter the route IDs for each leg of your trip, separated by commas (e.g., R101,R203):");
-            String routeIdsInput = scanner.nextLine();
-            String[] routeIds = routeIdsInput.split(",");
-            for (String id : routeIds) {
-                selectedRouteIds.add(id.trim());
-            }
-        } else {
-            System.out.print("Enter the route ID for your direct trip: ");
-            String routeId = scanner.nextLine();
-            selectedRouteIds.add(routeId.trim());
+        System.out.println("Please enter the number (without the dot (.)) from the previous searched connection: (for example: for Trip No.: 1, enter 1)");
+        int routeNo = scanner.nextInt();
+        if (routeNo < 1 || routeNo > results.size()) {
+            System.out.println("Invalid route number");
+            return selectedRouteIds;
         }
+
+
 
         return selectedRouteIds;
     }

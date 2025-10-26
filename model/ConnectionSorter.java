@@ -1,7 +1,7 @@
 package model;
 
 import java.util.List;
-
+// Not used anymore
 public class ConnectionSorter {
     public static void sortByDuration(List<TrainConnection> list) {
         for (int i = 0; i < list.size() - 1; i++) {

@@ -28,27 +28,27 @@ public class Console {
             MainMenuUI.SearchFilter filter = MainMenuUI.getSearchFilters();
             MainMenuUI.displayTrainConnections(filter, list);
 
-            BookingUI bookingUI = new BookingUI();
-            List<String> chosenTripRoute = bookingUI.askToBookTrip();
-
-            //Display chosen trip route to client
-            ArrayList<TrainConnection> allConnections = new ArrayList<>(list);
-            ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
-
-            System.out.println("\nYour chosen trip route(s):");
-            for (String chosenId : chosenTripRoute) {
-                for (TrainConnection connection : allConnections) {
-                    if (connection.getRouteID().equals(chosenId)) {
-                        System.out.println(connection.toFormattedString()); // display nicely
-                        chosenConnections.add(connection);                 // build the actual chosen trip
-                        break; // stop inner loop once match is found
-                    }
-                }
-            }
-
-            Client[] clients = BookingUI.getClientDetails();
-
-            bookingUI.createReservations(clients, chosenConnections);
+//            BookingUI bookingUI = new BookingUI();
+//            List<String> chosenTripRoute = bookingUI.askToBookTrip();
+//
+//            //Display chosen trip route to client
+//            ArrayList<TrainConnection> allConnections = new ArrayList<>(list);
+//            ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
+//
+//            System.out.println("\nYour chosen trip route(s):");
+//            for (String chosenId : chosenTripRoute) {
+//                for (TrainConnection connection : allConnections) {
+//                    if (connection.getRouteID().equals(chosenId)) {
+//                        System.out.println(connection.toFormattedString()); // display nicely
+//                        chosenConnections.add(connection);                 // build the actual chosen trip
+//                        break; // stop inner loop once match is found
+//                    }
+//                }
+//            }
+//
+//            Client[] clients = BookingUI.getClientDetails();
+//
+//            bookingUI.createReservations(clients, chosenConnections);
 
         }
         else System.exit(0);

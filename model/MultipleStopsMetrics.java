@@ -43,6 +43,17 @@ public class MultipleStopsMetrics {
         }
     }
 
+    public int getDurationMinutes() {
+        int total = 0;
+        String time = getTotalDuration();
+        String[] timeParts = time.split(":");
+        int hours = Integer.parseInt(timeParts[0].trim());
+        int minutes = Integer.parseInt(timeParts[1].trim());
+        int times = hours * 60 + minutes;
+        total += times;
+        return total;
+    }
+
     public String getLayover() {
 
         int total = 0;
