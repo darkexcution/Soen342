@@ -152,7 +152,8 @@ public class MainMenuUI {
                         for (MultipleStopsMetrics t : trips) {
                             System.out.println("Trip No.: " + count);
                             for (TrainConnection c : t.getConnections()) {
-                                System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity()
+                                System.out.println("  Route " + c.getRouteID() + ": "
+                                        + c.getDepartureCity() + " -> " + c.getArrivalCity()
                                         + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
                             }
                             System.out.println("  Total Time: " + t.getTotalTime());
@@ -171,7 +172,8 @@ public class MainMenuUI {
                         for (MultipleStopsMetrics t : trips) {
                             System.out.println("Trip No.: " + count);
                             for (TrainConnection c : t.getConnections()) {
-                                System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity()
+                                System.out.println("  Route " + c.getRouteID() + ": "
+                                        + c.getDepartureCity() + " -> " + c.getArrivalCity()
                                         + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
                             }
                             System.out.println("  Total Duration on the Train: " + t.getTotalDuration());

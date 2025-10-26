@@ -61,6 +61,16 @@ public class TrainConnection {
         return (routeID+", "+departureCity+", "+arrivalCity+", "+departureTime+", "+arrivalTime+", "+trainType+", "+daysOfOperation+", "+firstClassTicketRate+", "+secondClassTicketRate);
     }
 
+    public String toFormattedString() {
+        return "Route " + routeID + ": " +
+                departureCity + " → " + arrivalCity +
+                " | " + departureTime + " → " + arrivalTime +
+                " | " + trainType +
+                " | Days: " + daysOfOperation +
+                " | 1st Class: $" + firstClassTicketRate +
+                " | 2nd Class: $" + secondClassTicketRate;
+    }
+
     public String getRouteID() {
         return routeID;
     }

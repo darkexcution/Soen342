@@ -17,7 +17,7 @@ public class TripDAO {
             ArrayList<Reservation> list = trip.getReservations();
             Integer[] ticket=new Integer[list.size()];
             for (int i=0; i<ticket.length; i++) {
-                ticket[i]=list.get(i).getTicket().getTicketID();
+                ticket[i] = list.get(i).getTicket().getTicketId();
             }
             Array tickets = dbConn.createArrayOf("integer", ticket);
             stmt.setArray(1, tickets);
