@@ -5,7 +5,7 @@ public class TrainConnection {
     private String routeID;
     private String departureCity;
     private String arrivalCity;
-    private String departureTime; //Not sure which type to use for time
+    private String departureTime;
     private String arrivalTime;
     private String trainType;
     private String daysOfOperation;

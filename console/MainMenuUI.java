@@ -83,11 +83,11 @@ public class MainMenuUI {
         return filter;
     }
 
-    public static MultiplesStopsMetric displayTrainConnections(SearchFilter filter, List<TrainConnection> list) {
+    public static List<MultipleStopsMetric> displayTrainConnections(SearchFilter filter, List<TrainConnection> list) {
 
         Scanner scanner = new Scanner(System.in);
 
-        List<MultiplesStopsMetric> results = SearchConnection.searchConnection(
+        List<MultipleStopsMetric> results = SearchConnection.searchConnection(
                 list,
                 filter.depCity,
                 filter.arrCity,
@@ -108,7 +108,6 @@ public class MainMenuUI {
             if (displayIndirectConnectionsChoice.equals("y") && filter.depCity != null && filter.arrCity != null) {
                 MultipleStopsBuilder tripBuilder = new MultipleStopsBuilder();
                 results = tripBuilder.buildTrips(list, filter.depCity, filter.arrCity);
-
 
             } else {
                 System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
@@ -159,6 +158,7 @@ public class MainMenuUI {
             else {
                 displayIndirectConnection(results);
             }
+            return results;
 //            System.out.println("\n======= Connections Trips =======");
 //            int count = 1;
 //            for (StopsMetrics t : results) {
@@ -175,16 +175,6 @@ public class MainMenuUI {
 //                System.out.println();
 //                count++;
 //            }
-            System.out.println("Please enter the number (without the dot (.)) from the previous searched connection if you want to book a trip (enter 0 if you do not want to): (for example: for Trip No.: 1, enter 1)");
-            int routeNo = scanner.nextInt();
-            if (routeNo < 0 || routeNo > results.size()) {
-                System.out.println("Invalid route number");
-                return null;
-            }
-            if (routeNo==0) {
-                return null;
-            }
-            return results.get(routeNo-1);
         } else {
             System.out.println("\nNo routes found (direct or connected).");
             System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
@@ -242,6 +232,7 @@ public class MainMenuUI {
     }
 
     public static void displayDirectConnection(List<TrainConnection> results) {
+        System.out.println("Showing Direct Connections:");
         System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n", "Trip No.",
                 "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
                 "TrainType", "Days", "1st Class", "2nd Class");
@@ -261,11 +252,11 @@ public class MainMenuUI {
                     c.getFirstClassTicketRate(),
                     c.getSecondClassTicketRate());
             countResults++;
-            countResults++;
         }
     }
 
-    public static void displayIndirectConnection(List<MultiplesStopsMetric> results) {
+    public static void displayIndirectConnection(List<MultipleStopsMetric> results) {
+        System.out.println("Showing Indirect Connections:");
         System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n", "Trip No.",
                 "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
                 "TrainType", "Days", "1st Class", "2nd Class");

@@ -2,12 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
-public class MultiplesStopsMetric {
+public class MultipleStopsMetric {
 
     ArrayList<TrainConnection> connections;
 
 
-    public MultiplesStopsMetric() {
+    public MultipleStopsMetric() {
         this.connections = new ArrayList<>();
     }
 

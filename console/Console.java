@@ -22,21 +22,23 @@ public class Console {
         if (mainMenuChoice == 1) {
 
             MainMenuUI.SearchFilter filter = MainMenuUI.getSearchFilters();
-            MultiplesStopsMetric chosenTripRoute = MainMenuUI.displayTrainConnections(filter, list);
+            List<MultipleStopsMetric> availableTrips = MainMenuUI.displayTrainConnections(filter, list);
 
-            if (chosenTripRoute!=null) {
-                BookingUI bookingUI = new BookingUI();
-                bookingUI.askToBookTrip(chosenTripRoute);
+            if (availableTrips!=null) {
+                //BookingUI bookingUI = new BookingUI();
+                MultipleStopsMetric chosenTripRoute = BookingUI.askToBookTrip(availableTrips);
 
-                ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
-                System.out.println("\nYour chosen trip route(s):");
-                for (int i=0; i<chosenTripRoute.getConnections().size(); i++) {
-                    chosenConnections.add(chosenTripRoute.getConnections().get(i));
-                    System.out.println(chosenConnections.get(i).toFormattedString());
+                if  (chosenTripRoute!=null) {
+                    ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
+                    System.out.println("\nYour chosen trip route(s):");
+                    for (int i=0; i<chosenTripRoute.getConnections().size(); i++) {
+                        chosenConnections.add(chosenTripRoute.getConnections().get(i));
+                        System.out.println(chosenConnections.get(i).toFormattedString());
+                    }
+
+                    Client[] clients = BookingUI.getClientDetails();
+                    BookingUI.createReservations(clients, chosenConnections);
                 }
-
-                Client[] clients = BookingUI.getClientDetails();
-                bookingUI.createReservations(clients, chosenConnections);
             }
 
 //

@@ -23,6 +23,7 @@ public class Trip {
         tripId=id;
     }
 
-
-    public ArrayList<Reservation> getReservations(){return reservations;}
+    public ArrayList<Reservation> getReservations(){
+        return reservations;
+    }
 }
