@@ -1,14 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MultipleStopsMetrics {
+public class MultiplesStopsMetric {
 
-    List<TrainConnection> connections;
+    ArrayList<TrainConnection> connections;
 
 
-    public MultipleStopsMetrics() {
+    public MultiplesStopsMetric() {
         this.connections = new ArrayList<>();
     }
 
@@ -16,7 +15,7 @@ public class MultipleStopsMetrics {
         connections.add(conn);
     }
 
-    public List<TrainConnection> getConnections() {
+    public ArrayList<TrainConnection> getConnections() {
         return connections;
     }
 

@@ -3,6 +3,7 @@ package console;
 import dao.ClientDAO;
 import dao.ReservationDAO;
 import dao.TicketDAO;
+import dao.TripDAO;
 import model.*;
 
 import java.util.ArrayList;
@@ -11,17 +12,17 @@ import java.util.Scanner;
 
 public class BookingUI {
 
-    public List<String> askToBookTrip(List<MultipleStopsMetrics> results) {
-        Scanner scanner = new Scanner(System.in);
-        List<String> selectedRouteIds = new ArrayList<>();
+    public void askToBookTrip(MultiplesStopsMetric result) {
+//        Scanner scanner = new Scanner(System.in);
+//        List<String> selectedRouteIds = new ArrayList<>();
 
-        System.out.println("\nDo you want to book a trip?");
-        System.out.print("Enter 'y' for yes or 'n' for no: ");
-        String askToBook = scanner.nextLine();
-
-        if (!askToBook.equalsIgnoreCase("y")) {
-            return selectedRouteIds; // empty list = user chose not to book
-        }
+//        System.out.println("\nDo you want to book a trip?");
+//        System.out.print("Enter 'y' for yes or 'n' for no: ");
+//        String askToBook = scanner.nextLine();
+//
+//        if (!askToBook.equalsIgnoreCase("y")) {
+//            return selectedRouteIds; // empty list = user chose not to book
+//        }
 
         System.out.println("\n=== Trip Booking ===");
 //        System.out.println("\nWill your trip include stops in-between the source and destination?");
@@ -41,16 +42,10 @@ public class BookingUI {
 //            selectedRouteIds.add(routeId.trim());
 //        }
 
-        System.out.println("Please enter the number (without the dot (.)) from the previous searched connection: (for example: for Trip No.: 1, enter 1)");
-        int routeNo = scanner.nextInt();
-        if (routeNo < 1 || routeNo > results.size()) {
-            System.out.println("Invalid route number");
-            return selectedRouteIds;
-        }
 
 
 
-        return selectedRouteIds;
+        //return selectedRouteIds;
     }
 
     public static Client[] getClientDetails() {
@@ -118,7 +113,7 @@ public class BookingUI {
             }
         }
 
-        List<Reservation> reservations = new ArrayList<>();
+        ArrayList<Reservation> reservations = new ArrayList<>();
 
         for (Client client : clients) {
 
@@ -156,6 +151,9 @@ public class BookingUI {
             System.out.println("----------------------------------------");
         }
 
+        TripDAO tripDAO = new TripDAO();
+        Trip trip = new Trip(reservations);
+        trip=tripDAO.insert(trip);
         return reservations;
     }
 

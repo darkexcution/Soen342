@@ -7,16 +7,16 @@ public class SearchConnection {
 
     // Searches for train connections between two cities with the parameters set by the user.
     // returns a list of model.TrainConnection objects that match the criteria
-    public static List<MultipleStopsMetrics> searchConnection(List<TrainConnection> connections,
-                                                         String departureCity,
-                                                         String arrivalCity,
-                                                         String departureTime,
-                                                         String arrivalTime,
-                                                         String trainType,
-                                                         String daysOfOperation,
-                                                         Double firstClassTicketPrice,
-                                                         Double secondClassTicketPrice) {
-        List<MultipleStopsMetrics> results = new ArrayList<>();
+    public static List<MultiplesStopsMetric> searchConnection(List<TrainConnection> connections,
+                                                              String departureCity,
+                                                              String arrivalCity,
+                                                              String departureTime,
+                                                              String arrivalTime,
+                                                              String trainType,
+                                                              String daysOfOperation,
+                                                              Double firstClassTicketPrice,
+                                                              Double secondClassTicketPrice) {
+        List<MultiplesStopsMetric> results = new ArrayList<>();
         for (TrainConnection connection : connections) {
             boolean matchFound = true;
 
@@ -30,7 +30,7 @@ public class SearchConnection {
             if (secondClassTicketPrice != null && connection.getSecondClassTicketRate() != secondClassTicketPrice) matchFound = false;
 
             if (matchFound) {
-                MultipleStopsMetrics result = new MultipleStopsMetrics();
+                MultiplesStopsMetric result = new MultiplesStopsMetric();
                 result.addConnection(connection);
                 results.add(result);
             }

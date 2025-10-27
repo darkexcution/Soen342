@@ -1,8 +1,5 @@
 package console;
 
-import dao.ClientDAO;
-import dao.ReservationDAO;
-import dao.TripDAO;
 import model.*;
 
 import java.util.*;
@@ -86,11 +83,11 @@ public class MainMenuUI {
         return filter;
     }
 
-    public static void displayTrainConnections(SearchFilter filter, List<TrainConnection> list) {
+    public static MultiplesStopsMetric displayTrainConnections(SearchFilter filter, List<TrainConnection> list) {
 
         Scanner scanner = new Scanner(System.in);
 
-        List<MultipleStopsMetrics> results = SearchConnection.searchConnection(
+        List<MultiplesStopsMetric> results = SearchConnection.searchConnection(
                 list,
                 filter.depCity,
                 filter.arrCity,
@@ -151,50 +148,47 @@ public class MainMenuUI {
                         System.out.println("Invalid choice. Showing unsorted results:");
                 }
 
-
-                System.out.println("\n======= Connections Trips =======");
-                int count = 1;
-                for (MultipleStopsMetrics t : results) {
-                    System.out.println("Trip No.: " + count);
-                    for (TrainConnection c : t.getConnections()) {
-                        System.out.println("  Route " + c.getRouteID() + ": "
-                                + c.getDepartureCity() + " -> " + c.getArrivalCity()
-                                + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
-                    }
-                    System.out.println("  Total Time: " + t.getTotalTime());
-                    System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
-                    System.out.println("  Total layover: " + t.getLayover());
-                    System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
-                    System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
-                    System.out.println();
-                    count++;
-                }
-
             }
-            if (sortChoice.equalsIgnoreCase("n")) {
-                System.out.println("\n======= Connections Trips =======");
-                int count = 1;
-                for (MultipleStopsMetrics t : results) {
-                    System.out.println("Trip No.: " + count);
-                    for (TrainConnection c : t.getConnections()) {
-                        System.out.println("  Route " + c.getRouteID() + ": "
-                                + c.getDepartureCity() + " -> " + c.getArrivalCity()
-                                + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
-                    }
-                    System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
-                    System.out.println("  Total layover: " + t.getLayover());
-                    System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
-                    System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
-                    System.out.println();
-                    count++;
+            if (results.get(0).getConnections().size()==1) {
+                List<TrainConnection> result = new ArrayList<>();
+                for (int i = 0; i < results.size(); i++) {
+                    result.add(results.get(i).getConnections().get(0));
                 }
+                displayDirectConnection(result);
             }
-            BookingUI bookingUI = new BookingUI();
-            List<String> chosenTripRoute = bookingUI.askToBookTrip(results);
+            else {
+                displayIndirectConnection(results);
+            }
+//            System.out.println("\n======= Connections Trips =======");
+//            int count = 1;
+//            for (StopsMetrics t : results) {
+//                System.out.println("Trip No.: " + count);
+//                for (TrainConnection c : t.getConnections()) {
+//                    System.out.println("  Route " + c.getRouteID() + ": "
+//                            + c.getDepartureCity() + " -> " + c.getArrivalCity()
+//                            + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
+//                }
+//                System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
+//                System.out.println("  Total layover: " + t.getLayover());
+//                System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
+//                System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
+//                System.out.println();
+//                count++;
+//            }
+            System.out.println("Please enter the number (without the dot (.)) from the previous searched connection if you want to book a trip (enter 0 if you do not want to): (for example: for Trip No.: 1, enter 1)");
+            int routeNo = scanner.nextInt();
+            if (routeNo < 0 || routeNo > results.size()) {
+                System.out.println("Invalid route number");
+                return null;
+            }
+            if (routeNo==0) {
+                return null;
+            }
+            return results.get(routeNo-1);
         } else {
             System.out.println("\nNo routes found (direct or connected).");
             System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
-
+            System.exit(0);
         }
 //        } else {
 //
@@ -244,17 +238,17 @@ public class MainMenuUI {
 //                }
 //            }
 //        }
+        return null;
     }
 
-    public static void displayResultsAsTable(List<MultipleStopsMetrics> results) {
+    public static void displayDirectConnection(List<TrainConnection> results) {
         System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n", "Trip No.",
                 "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
                 "TrainType", "Days", "1st Class", "2nd Class");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         int countResults = 1;
-        List<TrainConnection> result = new ArrayList<>();
-        for (TrainConnection c : result) {
+        for (TrainConnection c : results) {
             System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n",
                     countResults,
                     c.getRouteID(),
@@ -268,6 +262,41 @@ public class MainMenuUI {
                     c.getSecondClassTicketRate());
             countResults++;
             countResults++;
+        }
+    }
+
+    public static void displayIndirectConnection(List<MultiplesStopsMetric> results) {
+        System.out.printf("%-8s %-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n", "Trip No.",
+                "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
+                "TrainType", "Days", "1st Class", "2nd Class");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        int countResults = 1;
+        for (int i = 0; i < results.size(); i++) {
+            System.out.println("Trip No."+countResults);
+            System.out.printf("\n%-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n",
+                    "RouteID", "Departure", "Arrival", "DepTime", "ArrTime",
+                    "TrainType", "Days", "1st Class", "2nd Class");
+            ArrayList<TrainConnection> result = new ArrayList<>();
+            result=results.get(i).getConnections();
+            for (TrainConnection c : result) {
+                System.out.printf("%-15s %-23s %-23s %-15s %-15s %-20s %-20s %-15s %-15s%n",
+                        c.getRouteID(),
+                        c.getDepartureCity(),
+                        c.getArrivalCity(),
+                        c.getDepartureTime(),
+                        c.getArrivalTime(),
+                        c.getTrainType(),
+                        c.getDaysOfOperation(),
+                        c.getFirstClassTicketRate(),
+                        c.getSecondClassTicketRate());
+            }
+            countResults++;
+            System.out.println("\nTotal Duration on the Train: " + results.get(i).getTotalDuration());
+            System.out.println("Total layover: " + results.get(i).getLayover());
+            System.out.println("Total 1st Class Price: " + results.get(i).getTotalPrice("first"));
+            System.out.println("Total 2nd Class Price: " + results.get(i).getTotalPrice("second"));
+            System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 }

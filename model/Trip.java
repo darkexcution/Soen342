@@ -7,8 +7,7 @@ public class Trip {
     private int tripId;
     private ArrayList<Reservation> reservations;
 
-    public Trip (int tripId, ArrayList<Reservation> reservations) {
-        this.tripId=tripId;
+    public Trip (ArrayList<Reservation> reservations) {
         this.reservations=reservations;
     }
 

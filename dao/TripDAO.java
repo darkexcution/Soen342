@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class TripDAO {
 
     public Trip insert(Trip trip) {
-        String sql = "INSERT INTO public.trip (reservation) VALUES (?)";
+        String sql = "INSERT INTO public.trip (reservation_ids) VALUES (?)";
         try (Connection dbConn = Database.getConnection();
              PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 

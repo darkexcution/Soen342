@@ -5,13 +5,13 @@ import java.util.List;
 
 public class MultipleStopsBuilder  {
     
-    public static List <MultipleStopsMetrics> buildTrips (List <TrainConnection> connections, String departure, String arrival){
-        List <MultipleStopsMetrics> trips = new ArrayList<>();
+    public static List <MultiplesStopsMetric> buildTrips (List <TrainConnection> connections, String departure, String arrival){
+        List <MultiplesStopsMetric> trips = new ArrayList<>();
 
         //logic for direct connection
         for(TrainConnection conn: connections){
             if(conn.getDepartureCity().equalsIgnoreCase(departure)&&conn.getArrivalCity().equalsIgnoreCase(arrival)){
-                MultipleStopsMetrics t = new MultipleStopsMetrics();
+                MultiplesStopsMetric t = new MultiplesStopsMetric();
                 t.addConnection(conn);
                 trips.add(t);
             }
@@ -27,7 +27,7 @@ public class MultipleStopsBuilder  {
                 for (TrainConnection conn2: connections){
                     if(conn2.getArrivalCity().equalsIgnoreCase(arrival)){
                         if(conn1.getArrivalCity().equalsIgnoreCase(conn2.getDepartureCity())){
-                            MultipleStopsMetrics t = new MultipleStopsMetrics();
+                            MultiplesStopsMetric t = new MultiplesStopsMetric();
                             t.addConnection(conn1);
                             t.addConnection(conn2);
                             trips.add(t);
@@ -45,7 +45,7 @@ public class MultipleStopsBuilder  {
                     if(conn3.getArrivalCity().equalsIgnoreCase(arrival)){
                         for(TrainConnection conn2: connections){
                             if(conn2.getDepartureCity().equalsIgnoreCase(conn1.getArrivalCity())&& conn2.getArrivalCity().equalsIgnoreCase(conn3.getDepartureCity())){
-                                MultipleStopsMetrics t = new MultipleStopsMetrics();
+                                MultiplesStopsMetric t = new MultiplesStopsMetric();
                                 t.addConnection(conn1);
                                 t.addConnection(conn2);
                                 t.addConnection(conn3);
