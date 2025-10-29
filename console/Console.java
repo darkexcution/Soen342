@@ -1,13 +1,9 @@
 package console;
 
-import dao.ClientDAO;
-import dao.ReservationDAO;
-import dao.TripDAO;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Console {
 
@@ -26,35 +22,42 @@ public class Console {
         if (mainMenuChoice == 1) {
 
             MainMenuUI.SearchFilter filter = MainMenuUI.getSearchFilters();
-            MainMenuUI.displayTrainConnections(filter, list);
+            List<MultipleStopsMetric> availableTrips = MainMenuUI.displayTrainConnections(filter, list);
 
-            BookingUI bookingUI = new BookingUI();
-            List<String> chosenTripRoute = bookingUI.askToBookTrip();
+            if (availableTrips!=null) {
+                //BookingUI bookingUI = new BookingUI();
+                MultipleStopsMetric chosenTripRoute = BookingUI.askToBookTrip(availableTrips);
 
-            //Display chosen trip route to client
-            ArrayList<TrainConnection> allConnections = new ArrayList<>(list);
-            ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
-
-            System.out.println("\nYour chosen trip route(s):");
-            for (String chosenId : chosenTripRoute) {
-                for (TrainConnection connection : allConnections) {
-                    if (connection.getRouteID().equals(chosenId)) {
-                        System.out.println(connection.toFormattedString()); // display nicely
-                        chosenConnections.add(connection);                 // build the actual chosen trip
-                        break; // stop inner loop once match is found
+                if  (chosenTripRoute!=null) {
+                    ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
+                    System.out.println("\nYour chosen trip route(s):");
+                    for (int i=0; i<chosenTripRoute.getConnections().size(); i++) {
+                        chosenConnections.add(chosenTripRoute.getConnections().get(i));
+                        System.out.println(chosenConnections.get(i).toFormattedString());
                     }
+
+                    Client[] clients = BookingUI.getClientDetails();
+                    BookingUI.createReservations(clients, chosenConnections);
                 }
             }
 
-            Client[] clients = BookingUI.getClientDetails();
-
-            bookingUI.createReservations(clients, chosenConnections);
+//
+//            //Display chosen trip route to client
+//            ArrayList<TrainConnection> allConnections = new ArrayList<>(list);
+//            ArrayList<TrainConnection> chosenConnections = new ArrayList<>();
+//            System.out.println("\nYour chosen trip route(s):");
+//            for (String chosenId : chosenTripRoute) {
+//                for (TrainConnection connection : allConnections) {
+//                    if (connection.getRouteID().equals(chosenId)) {
+//                        System.out.println(connection.toFormattedString()); // display nicely
+//                        chosenConnections.add(connection);                 // build the actual chosen trip
+//                        break; // stop inner loop once match is found
+//                    }
+//                }
+//            }
 
         }
         else System.exit(0);
-
-
-
 
 //        Client client1 = new Client("Doe", "John", 30, 1);
 //        Client client2 = new Client("John", "Cena", 31, 2);
@@ -83,12 +86,7 @@ public class Console {
 //        Trip trip1 = new Trip(1, reservations);
 //        trip1 = td.insert(trip1);
 
-
-
-    }  
-
-
-
+    }
 }
 
 

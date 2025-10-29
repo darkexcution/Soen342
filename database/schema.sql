@@ -32,8 +32,8 @@ CREATE TABLE ticket (
 );
 
 CREATE TABLE trip (
-                      trip_id VARCHAR(10) PRIMARY KEY,          -- alphanumeric
-                      reservation_ids INT[] NOT NULL            -- list of reservation IDs
+                      trip_id SERIAL PRIMARY KEY,          -- alphanumeric
+                      reservation_ids INT[]           -- list of reservation IDs
 );
 
 CREATE TABLE reservation_connection (

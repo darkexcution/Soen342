@@ -11,7 +11,7 @@ public class ReservationDAO {
 
     public Reservation insert(Reservation reservation) {
         String sql = "INSERT INTO public.reservation (client_id, route_ids) VALUES (?, ?)";
-        String insertConnectionSql = "INSERT INTO public.reservation_connection (reservation_id, route_id) VALUES (?, ?)";
+        //String insertConnectionSql = "INSERT INTO public.reservation_connection (reservation_id, route_id) VALUES (?, ?)";
 
         try (Connection dbConn = Database.getConnection();
              PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -35,14 +35,14 @@ public class ReservationDAO {
                 }
             }
 
-            try (PreparedStatement stmtConn = dbConn.prepareStatement(insertConnectionSql)) {
-                for (TrainConnection connection : reservation.getConnections()) {
-                    stmtConn.setInt(1, reservation.getReservationId());
-                    stmtConn.setString(2, connection.getRouteID());
-                    stmtConn.addBatch();
-                }
-                stmtConn.executeBatch(); // insert all at once
-            }
+//            try (PreparedStatement stmtConn = dbConn.prepareStatement(insertConnectionSql)) {
+//                for (TrainConnection connection : reservation.getConnections()) {
+//                    stmtConn.setInt(1, reservation.getReservationId());
+//                    stmtConn.setString(2, connection.getRouteID());
+//                    stmtConn.addBatch();
+//                }
+//                stmtConn.executeBatch(); // insert all at once
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();

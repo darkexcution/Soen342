@@ -3,10 +3,8 @@ package console;
 import dao.ClientDAO;
 import dao.ReservationDAO;
 import dao.TicketDAO;
-import model.Client;
-import model.Reservation;
-import model.Ticket;
-import model.TrainConnection;
+import dao.TripDAO;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,39 +12,50 @@ import java.util.Scanner;
 
 public class BookingUI {
 
-    public List<String> askToBookTrip() {
+    // Ask the user if they want to book a trip or not and if so, which one
+    public static MultipleStopsMetric askToBookTrip(List<MultipleStopsMetric> availableTrips) {
         Scanner scanner = new Scanner(System.in);
-        List<String> selectedRouteIds = new ArrayList<>();
-
-        System.out.println("\nDo you want to book a trip?");
-        System.out.print("Enter 'y' for yes or 'n' for no: ");
-        String askToBook = scanner.nextLine();
-
-        if (!askToBook.equalsIgnoreCase("y")) {
-            return selectedRouteIds; // empty list = user chose not to book
-        }
-
         System.out.println("\n=== Trip Booking ===");
-        System.out.println("\nWill your trip include stops in-between the source and destination?");
-        System.out.print("Enter 'y' for yes or 'n' for no: ");
-        String hasStops = scanner.nextLine();
-
-        if (hasStops.equalsIgnoreCase("y")) {
-            System.out.println("Enter the route IDs for each leg of your trip, separated by commas (e.g., R101,R203):");
-            String routeIdsInput = scanner.nextLine();
-            String[] routeIds = routeIdsInput.split(",");
-            for (String id : routeIds) {
-                selectedRouteIds.add(id.trim());
-            }
-        } else {
-            System.out.print("Enter the route ID for your direct trip: ");
-            String routeId = scanner.nextLine();
-            selectedRouteIds.add(routeId.trim());
+        System.out.println("Please enter the number (without the dot (.)) from the previous searched connection if you want to book a trip (enter 0 if you do not want to): (for example: for Trip No.: 1, enter 1)");
+        int routeNo = scanner.nextInt();
+        if (routeNo < 0 || routeNo > availableTrips.size()) {
+            System.out.println("Invalid route number");
+            return null;
         }
+        if (routeNo==0) {
+            return null;
+        }
+        return availableTrips.get(routeNo-1);
+//        Scanner scanner = new Scanner(System.in);
+//        List<String> selectedRouteIds = new ArrayList<>();
 
-        return selectedRouteIds;
+//        System.out.println("\nDo you want to book a trip?");
+//        System.out.print("Enter 'y' for yes or 'n' for no: ");
+//        String askToBook = scanner.nextLine();
+//
+//        if (!askToBook.equalsIgnoreCase("y")) {
+//            return selectedRouteIds; // empty list = user chose not to book
+//        }
+//        System.out.println("\nWill your trip include stops in-between the source and destination?");
+//        System.out.print("Enter 'y' for yes or 'n' for no: ");
+//        String hasStops = scanner.nextLine();
+//
+//        if (hasStops.equalsIgnoreCase("y")) {
+//            System.out.println("Enter the route IDs for each leg of your trip, separated by commas (e.g., R101,R203):");
+//            String routeIdsInput = scanner.nextLine();
+//            String[] routeIds = routeIdsInput.split(",");
+//            for (String id : routeIds) {
+//                selectedRouteIds.add(id.trim());
+//            }
+//        } else {
+//            System.out.print("Enter the route ID for your direct trip: ");
+//            String routeId = scanner.nextLine();
+//            selectedRouteIds.add(routeId.trim());
+//        }
+        //return selectedRouteIds;
     }
 
+    // Get the number of client and their info
     public static Client[] getClientDetails() {
 
         Scanner scanner = new Scanner(System.in);
@@ -81,12 +90,14 @@ public class BookingUI {
         return clients;
     }
 
-    public List<Reservation> createReservations(Client[] clients, List<TrainConnection> chosenConnections) {
+    // Create the reservation and trip to be inserted in the database
+    public static List<Reservation> createReservations(Client[] clients, List<TrainConnection> chosenConnections) {
 
         Scanner scanner = new Scanner(System.in);
         ReservationDAO reservationDAO = new ReservationDAO();
         TicketDAO ticketDAO = new TicketDAO();
         ClientDAO clientDAO = new ClientDAO();
+        TripDAO tripDAO = new TripDAO();
 
         // Show the trip route summary
         System.out.println("\nBooking reservation for trip with " + chosenConnections.size() + " leg(s):");
@@ -112,7 +123,7 @@ public class BookingUI {
             }
         }
 
-        List<Reservation> reservations = new ArrayList<>();
+        ArrayList<Reservation> reservations = new ArrayList<>();
 
         for (Client client : clients) {
 
@@ -150,6 +161,8 @@ public class BookingUI {
             System.out.println("----------------------------------------");
         }
 
+        Trip trip = new Trip(reservations);
+        trip=tripDAO.insert(trip);
         return reservations;
     }
 

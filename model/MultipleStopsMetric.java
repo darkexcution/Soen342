@@ -1,14 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MultipleStopsMetrics {
+public class MultipleStopsMetric {
 
-    List<TrainConnection> connections;
+    ArrayList<TrainConnection> connections;
 
 
-    public MultipleStopsMetrics() {
+    public MultipleStopsMetric() {
         this.connections = new ArrayList<>();
     }
 
@@ -16,7 +15,7 @@ public class MultipleStopsMetrics {
         connections.add(conn);
     }
 
-    public List<TrainConnection> getConnections() {
+    public ArrayList<TrainConnection> getConnections() {
         return connections;
     }
 
@@ -41,6 +40,17 @@ public class MultipleStopsMetrics {
         } else {
             return (hour + ":" + minute);
         }
+    }
+
+    public int getDurationMinutes() {
+        int total = 0;
+        String time = getTotalDuration();
+        String[] timeParts = time.split(":");
+        int hours = Integer.parseInt(timeParts[0].trim());
+        int minutes = Integer.parseInt(timeParts[1].trim());
+        int times = hours * 60 + minutes;
+        total += times;
+        return total;
     }
 
     public String getLayover() {
