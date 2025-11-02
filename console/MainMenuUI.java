@@ -28,11 +28,12 @@ public class MainMenuUI {
         System.out.println("----------------------------------------------------------");
 
         System.out.println("1. Search Train Routes");
-        System.out.println("2. Exit");
+        System.out.println("2. View your Trips");
+        System.out.println("3. Exit");
         System.out.println("----------------------------------------------------------");
         System.out.println("\n");
 
-        System.out.print("Please enter your choice (1 or 2): ");
+        System.out.print("Please enter your choice (1, 2 or 3): ");
         int mainMenuChoice = scanner.nextInt();
         scanner.nextLine();
         System.out.println();
@@ -292,7 +293,8 @@ public class MainMenuUI {
                         c.getSecondClassTicketRate());
             }
             countResults++;
-            System.out.println("\nTotal Duration on the Train: " + results.get(i).getTotalDuration());
+            System.out.println("\nTotal Duration: " + results.get(i).getTotalTime());
+            System.out.println("Total Time on the Train: " + results.get(i).getTotalDuration());
             System.out.println("Total layover: " + results.get(i).getLayover());
             System.out.println("Total 1st Class Price: " + results.get(i).getTotalPrice("first"));
             System.out.println("Total 2nd Class Price: " + results.get(i).getTotalPrice("second"));

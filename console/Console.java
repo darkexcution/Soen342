@@ -1,9 +1,13 @@
 package console;
 
+import dao.ClientDAO;
+import dao.ReservationDAO;
+import dao.TripDAO;
 import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Console {
 
@@ -53,6 +57,42 @@ public class Console {
 //                    }
 //                }
 //            }
+
+        }
+        if (mainMenuChoice == 2) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("\n=== View Your Trips ===");
+            System.out.print("Enter your Client ID: ");
+            int clientId = Integer.parseInt(scanner.nextLine());
+            System.out.print("Enter your Last Name: ");
+            String lastName = scanner.nextLine();
+
+            TripDAO tripDAO = new TripDAO();
+            ReservationDAO reservationDAO = new ReservationDAO();
+            ClientDAO clientDAO = new ClientDAO();
+
+            // Fetch all reservations for this client
+            ArrayList<Reservation> clientReservations = reservationDAO.getReservationsByClientIdAndLastName(clientId, lastName);
+
+            if (clientReservations.isEmpty()) {
+                System.out.println("No trips found for client ID " + clientId + " and last name " + lastName);
+            } else {
+                System.out.println("\nYour Trips:");
+                int count = 1;
+                for (Reservation res : clientReservations) {
+                    System.out.println("\nTrip #" + count++);
+                    System.out.println("Reservation ID: " + res.getReservationId());
+                    System.out.println("Train Connections:");
+                    for (TrainConnection c : res.getConnections()) {
+                        System.out.println("  " + c.getDepartureCity() + " -> " + c.getArrivalCity() +
+                                " | Dep: " + c.getDepartureTime() +
+                                " | Arr: " + c.getArrivalTime() +
+                                " | Train: " + c.getTrainType());
+                    }
+                    System.out.println("Travel Class: " + res.getTicket().getTravelClass());
+                    System.out.println("Total Price: $" + res.getTicket().getTotalPrice());
+                }
+            }
 
         }
         else System.exit(0);

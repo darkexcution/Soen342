@@ -39,4 +39,9 @@ public class Client {
                 ", lastName: " + lastName +
                 ", age: " + age;
     }
+
+    public String getId() {
+        return Integer.toString(id);
+    }
+
 }
