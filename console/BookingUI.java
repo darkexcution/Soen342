@@ -79,7 +79,22 @@ public class BookingUI {
             System.out.print("Age: ");
             int age = Integer.parseInt(scanner.nextLine());
 
-            clients[i] = new Client(firstName, lastName, age, 0);
+            Client existingClient = clientDAO.getClientByNameAndAge(firstName, lastName, age);
+
+            if (existingClient != null) {
+                System.out.println("Existing client found: " +
+                        existingClient.getFirstName() + " " +
+                        existingClient.getLastName() + " (ID: " +
+                        existingClient.getId() + ")");
+                clients[i] = existingClient;
+            } else {
+                // Create new client and insert into DB
+                Client newClient = new Client(firstName, lastName, age, 0);
+                newClient = clientDAO.insert(newClient);
+                System.out.println("New client added: " + newClient.getFirstName() + " " +
+                        newClient.getLastName() + " (Assigned ID: " + newClient.getId() + ")");
+                clients[i] = newClient;
+            }
 
 //            Client should be inserted into database and given an id (by postgres) after the reservation is made:
 //            client = clientDAO.insert(client);
@@ -131,6 +146,26 @@ public class BookingUI {
 
             // Console test output
             //System.out.println("Added client: " + client.getFirstName() + " " + client.getLastName() + " (ID assigned: " + client.getID() + ")");
+
+            // Check if the client already exists in the database
+            Client existingClient = clientDAO.getClientByNameAndAge(
+                    client.getFirstName(),
+                    client.getLastName(),
+                    client.getAge()
+            );
+
+            if (existingClient != null) {
+                client = existingClient;
+                System.out.println("\nExisting client found: " +
+                        client.getFirstName() + " " + client.getLastName() +
+                        " (ID: " + client.getId() + ")");
+            } else {
+                // If not found, insert a new client
+                client = clientDAO.insert(client);
+                System.out.println("\nNew client added: " +
+                        client.getFirstName() + " " + client.getLastName() +
+                        " (Assigned ID: " + client.getId() + ")");
+            }
 
             Ticket ticket = new Ticket(ticketRate, travelClass);
 

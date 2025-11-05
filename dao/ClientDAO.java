@@ -32,4 +32,34 @@ public class ClientDAO {
         }
         return client;
     }
+
+
+    public Client getClientByNameAndAge(String firstName, String lastName, int age) {
+        String sql = "SELECT * FROM client WHERE LOWER(first_name) = LOWER(?) AND LOWER(last_name) = LOWER(?) AND age = ?";
+
+        try (Connection dbConn = Database.getConnection();
+             PreparedStatement stmt = dbConn.prepareStatement(sql)) {
+
+            stmt.setString(1, firstName);
+            stmt.setString(2, lastName);
+            stmt.setInt(3, age);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Client(
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getInt("age"),
+                            rs.getInt("client_id")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
 }
