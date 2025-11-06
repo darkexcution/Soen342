@@ -157,6 +157,7 @@ public class MainMenuUI {
                 displayDirectConnection(result);
             }
             else {
+                results = layoverPolicy(results);
                 displayIndirectConnection(results);
             }
             return results;
@@ -230,6 +231,76 @@ public class MainMenuUI {
 //            }
 //        }
         return null;
+    }
+
+    public static List<MultipleStopsMetric> layoverPolicy(List<MultipleStopsMetric> results) {
+        List<MultipleStopsMetric> trips = new ArrayList<>();
+
+        for (int i = 0; i<results.size(); i++) { // Direct Connection, no layover
+            if (results.get(i).getConnections().size()==1) {
+                trips.add(results.get(i));
+            }
+            else if(results.get(i).getConnections().size()>1) { // Indirect connection
+                List<TrainConnection> layoverConnection1 = results.get(i).getConnections();
+
+                String[] time = layoverConnection1.get(0).getArrivalTime().split(":");
+                int arrival1 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+                time = results.get(i).getLayover().split(":");
+                int layover1 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+
+                if (arrival1>=360 && arrival1<1080) { // Between 6h and 18h
+                    if (layover1<=120) { // Layover less than 2h
+                        if (results.get(i).getConnections().size()==2) { // 1 Layover
+                            trips.add(results.get(i));
+                        }
+                        else { // 2 Layover
+
+                            time = layoverConnection1.get(1).getArrivalTime().split(":");
+                            int arrival2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+                            time = results.get(i).getLayover().split(":");
+                            int layover2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+
+                            if (arrival2>=360 && arrival2<1080) {
+                                if (layover2 <= 120) {
+                                    trips.add(results.get(i));
+                                }
+                            }
+                            else {
+                                if (layover2 <= 30) {
+                                    trips.add(results.get(i));
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (layover1<=30) {
+                        if (results.get(i).getConnections().size()==2) {
+                            trips.add(results.get(i));
+                        }
+                        else { // 2 Layover
+
+                            time = layoverConnection1.get(1).getArrivalTime().split(":");
+                            int arrival2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+                            time = results.get(i).getLayover().split(":");
+                            int layover2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+
+                            if (arrival2>=360 && arrival2<1080) {
+                                if (layover2 <= 120) {
+                                    trips.add(results.get(i));
+                                }
+                            }
+                            else {
+                                if (layover2 <= 30) {
+                                    trips.add(results.get(i));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return trips;
     }
 
     public static void displayDirectConnection(List<TrainConnection> results) {
