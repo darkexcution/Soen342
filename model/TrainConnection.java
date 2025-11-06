@@ -35,8 +35,14 @@ public class TrainConnection {
         
         duration=arrival-departure;
         String hour = Integer.toString(duration/60); // If same format
-        String minute = Integer.toString(duration%60); 
-        if (duration%60<10) {
+        String minute = Integer.toString(duration%60);
+        if (duration/60<10 && duration%60<10) {
+            return ("0"+hour+":0"+minute);
+        }
+        else if (duration/60<10) {
+            return ("0"+hour+":"+minute);
+        }
+        else if (duration%60<10) {
             return (hour+":0"+minute);
         }
         else {

@@ -77,10 +77,17 @@ public class MultipleStopsMetric {
 
         String hour = Integer.toString(total / 60); // If same format
         String minute = Integer.toString(total % 60);
-        if (total % 60 < 10) {
-            return (hour + ":0" + minute);
-        } else {
-            return (hour + ":" + minute);
+        if (total/60<10 && total%60<10) {
+            return ("0"+hour+":0"+minute);
+        }
+        else if (total/60<10) {
+            return ("0"+hour+":"+minute);
+        }
+        else if (total%60<10) {
+            return (hour+":0"+minute);
+        }
+        else {
+            return (hour+":"+minute);
         }
 
     }
