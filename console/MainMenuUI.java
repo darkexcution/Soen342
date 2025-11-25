@@ -240,7 +240,80 @@ public class MainMenuUI {
             if (results.get(i).getConnections().size()==1) {
                 trips.add(results.get(i));
             }
-            else if(results.get(i).getConnections().size()>1) { // Indirect connection
+            else if(results.get(i).getConnections().size()==2) { // Indirect connection, 1 layover
+
+                List<TrainConnection> layoverConnection1 = results.get(i).getConnections();
+                String[] time = layoverConnection1.get(0).getArrivalTime().split(":");
+                int arrival = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+                time = results.get(i).getLayover().split(":");
+                int layover = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
+
+                if (arrival>=360 && arrival<1080) { // Between 6h and 18h
+                    if (layover <= 120) { // Layover less than 2h
+                        trips.add(results.get(i));
+                    }
+                }
+                else { // Between 18h and 6h
+                    if (layover <= 30) { // Layover less than 30 min
+                        trips.add(results.get(i));
+                    }
+                }
+            }
+            else if (results.get(i).getConnections().size()==3) { // Indirect connection, 2 layover
+                List<TrainConnection> layoverConnection1 = results.get(i).getConnections();
+
+                int arrival1 = Integer.parseInt(layoverConnection1.get(0).getArrivalTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(0).getArrivalTime().substring(3, 5));
+                int departure1 = Integer.parseInt(layoverConnection1.get(1).getDepartureTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(1).getDepartureTime().substring(3, 5));
+                if (arrival1 < departure1) {
+                    arrival1 += 1440;
+                }
+                int layover1 = arrival1 - departure1;
+
+                if (arrival1>=360 && arrival1<1080) { // First Layover, Between 6h and 18h
+                    if (layover1 <= 120) { // Layover less than 2h
+                        int arrival2 = Integer.parseInt(layoverConnection1.get(1).getArrivalTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(1).getArrivalTime().substring(3, 5));
+                        int departure2 = Integer.parseInt(layoverConnection1.get(2).getDepartureTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(2).getDepartureTime().substring(3, 5));
+                        if (arrival2 < departure2) {
+                            arrival2 += 1440;
+                        }
+                        int layover2 = arrival2 - departure2;
+
+                        if (arrival2>=360 && arrival2<1080) { // Second Layover, Between 6h and 18h
+                            if (layover2 <= 120) { // Layover less than 2h
+                                trips.add(results.get(i));
+                            }
+                        }
+                        else { // Second Layover, Between 18h and 6h
+                            if (layover2 <= 30) { // Layover less than 30 min
+                                trips.add(results.get(i));
+                            }
+                        }
+                    }
+                }
+                else { // First Layover, Between 18h and 6h,
+                    if (layover1<=30) { // Layover less than 30 min
+
+                        int arrival2 = Integer.parseInt(layoverConnection1.get(1).getArrivalTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(1).getArrivalTime().substring(3, 5));
+                        int departure2 = Integer.parseInt(layoverConnection1.get(2).getDepartureTime().substring(0, 2)) * 60 + Integer.parseInt(layoverConnection1.get(2).getDepartureTime().substring(3, 5));
+                        if (arrival2 < departure2) {
+                            arrival2 += 1440;
+                        }
+                        int layover2 = arrival2 - departure2;
+
+                        if (arrival2>=360 && arrival2<1080) { // Second Layover, Between 6h and 18h
+                            if (layover2 <= 120) { // Layover less than 2h
+                                trips.add(results.get(i));
+                            }
+                        }
+                        else { // Second Layover, Between 18h and 6h
+                            if (layover2 <= 30) { // Layover less than 30 min
+                                trips.add(results.get(i));
+                            }
+                        }
+                    }
+                }
+            }
+                /*
                 List<TrainConnection> layoverConnection1 = results.get(i).getConnections();
 
                 String[] time = layoverConnection1.get(0).getArrivalTime().split(":");
@@ -299,6 +372,7 @@ public class MainMenuUI {
                     }
                 }
             }
+                 */
         }
         return trips;
     }
