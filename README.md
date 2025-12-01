@@ -20,4 +20,5 @@ The **Documentation Directory** contains:
 - **System Sequence Diagram & System Operations**   
 - **Operation Contracts** 
 - **Interaction Diagrams** 
-- **Class Diagram**
+- **Class Diagram**  
+- **State UML** (please download the raw file to properly look at it)
