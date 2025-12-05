@@ -26,33 +26,7 @@ public class BookingUI {
             return null;
         }
         return availableTrips.get(routeNo-1);
-//        Scanner scanner = new Scanner(System.in);
-//        List<String> selectedRouteIds = new ArrayList<>();
 
-//        System.out.println("\nDo you want to book a trip?");
-//        System.out.print("Enter 'y' for yes or 'n' for no: ");
-//        String askToBook = scanner.nextLine();
-//
-//        if (!askToBook.equalsIgnoreCase("y")) {
-//            return selectedRouteIds; // empty list = user chose not to book
-//        }
-//        System.out.println("\nWill your trip include stops in-between the source and destination?");
-//        System.out.print("Enter 'y' for yes or 'n' for no: ");
-//        String hasStops = scanner.nextLine();
-//
-//        if (hasStops.equalsIgnoreCase("y")) {
-//            System.out.println("Enter the route IDs for each leg of your trip, separated by commas (e.g., R101,R203):");
-//            String routeIdsInput = scanner.nextLine();
-//            String[] routeIds = routeIdsInput.split(",");
-//            for (String id : routeIds) {
-//                selectedRouteIds.add(id.trim());
-//            }
-//        } else {
-//            System.out.print("Enter the route ID for your direct trip: ");
-//            String routeId = scanner.nextLine();
-//            selectedRouteIds.add(routeId.trim());
-//        }
-        //return selectedRouteIds;
     }
 
     // Get the number of client and their info
@@ -96,11 +70,6 @@ public class BookingUI {
                 clients[i] = newClient;
             }
 
-//            Client should be inserted into database and given an id (by postgres) after the reservation is made:
-//            client = clientDAO.insert(client);
-//
-//            System.out.println("Added client: " + client.getFirstName() + " " + client.getLastName() +
-//                    " (ID assigned: " + client.getID() + ")");
         }
         return clients;
     }
@@ -142,10 +111,6 @@ public class BookingUI {
 
         for (Client client : clients) {
 
-//            client = clientDAO.insert(client);
-
-            // Console test output
-            //System.out.println("Added client: " + client.getFirstName() + " " + client.getLastName() + " (ID assigned: " + client.getID() + ")");
 
             // Check if the client already exists in the database
             Client existingClient = clientDAO.getClientByNameAndAge(
@@ -179,7 +144,7 @@ public class BookingUI {
 
             reservations.add(reservation);
 
-            System.out.println("\n🎟️ Ticket for " + client.getFirstName() + " " + client.getLastName());
+            System.out.println("\n Ticket for " + client.getFirstName() + " " + client.getLastName());
             System.out.println("----------------------------------------");
             System.out.println("Name: " + client.getFirstName() + " " + client.getLastName());
             System.out.println("Age: " + client.getAge());
