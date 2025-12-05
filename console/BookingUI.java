@@ -142,7 +142,7 @@ public class BookingUI {
 
         for (Client client : clients) {
 
-            client = clientDAO.insert(client);
+//            client = clientDAO.insert(client);
 
             // Console test output
             //System.out.println("Added client: " + client.getFirstName() + " " + client.getLastName() + " (ID assigned: " + client.getID() + ")");
