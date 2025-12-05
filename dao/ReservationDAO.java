@@ -37,14 +37,7 @@ public class ReservationDAO {
                 }
             }
 
-//            try (PreparedStatement stmtConn = dbConn.prepareStatement(insertConnectionSql)) {
-//                for (TrainConnection connection : reservation.getConnections()) {
-//                    stmtConn.setInt(1, reservation.getReservationId());
-//                    stmtConn.setString(2, connection.getRouteID());
-//                    stmtConn.addBatch();
-//                }
-//                stmtConn.executeBatch(); // insert all at once
-//            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

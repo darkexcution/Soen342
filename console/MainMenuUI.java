@@ -161,75 +161,13 @@ public class MainMenuUI {
                 displayIndirectConnection(results);
             }
             return results;
-//            System.out.println("\n======= Connections Trips =======");
-//            int count = 1;
-//            for (StopsMetrics t : results) {
-//                System.out.println("Trip No.: " + count);
-//                for (TrainConnection c : t.getConnections()) {
-//                    System.out.println("  Route " + c.getRouteID() + ": "
-//                            + c.getDepartureCity() + " -> " + c.getArrivalCity()
-//                            + " (" + c.getDepartureTime() + " - " + c.getArrivalTime() + ")");
-//                }
-//                System.out.println("  Total Duration on the Train: " + t.getTotalDuration());
-//                System.out.println("  Total layover: " + t.getLayover());
-//                System.out.println("  Total 1st Class Price: " + t.getTotalPrice("first"));
-//                System.out.println("  Total 2nd Class Price: " + t.getTotalPrice("second"));
-//                System.out.println();
-//                count++;
-//            }
+
         } else {
             System.out.println("\nNo routes found (direct or connected).");
             System.out.println("\nThank you for visiting the Train Route Search and Scheduling System!");
             System.exit(0);
         }
-//        } else {
-//
-//
-//            System.out.println("\nSearch results found: " + results.size());
-//            System.out.println("\n======= Train Connections =======");
-//            displayResultsAsTable(results);
-//
-//            System.out.println("\n");
-//
-//            if (!results.isEmpty()) {
-//                System.out.println("Would you like to sort the results?");
-//                System.out.print("Enter 'y' for yes or 'n' for no: ");
-//                String sortChoice = scanner.nextLine();
-//
-//                if (sortChoice.equalsIgnoreCase("y")) {
-//                    System.out.println("Sort results by:");
-//                    System.out.println("1: Duration");
-//                    System.out.println("2: First Class Price");
-//                    System.out.println("3: Second Class Price");
-//                    System.out.print("Enter choice (1-3): ");
-//                    String choice = scanner.nextLine();
-//
-//                    switch (choice) {
-//                        case "1":
-//                            ConnectionSorter.sortByDuration(results);
-//                            System.out.println("\nDiaplaying results sorted by duration:");
-//                            break;
-//                        case "2":
-//                            ConnectionSorter.sortByFirstClassPrice(results);
-//                            System.out.println("\nDiaplaying results sorted by First Class Price:");
-//                            break;
-//                        case "3":
-//                            ConnectionSorter.sortBySecondClassPrice(results);
-//                            System.out.println("\nDiaplaying results sorted by Second Class Price:");
-//                            break;
-//                        default:
-//                            System.out.println("Invalid choice. Showing unsorted results:");
-//                    }
-//                    System.out.println("\n======= Train Connections =======");
-//                    displayResultsAsTable(results);
-//
-//                } else {
-//                    System.out.println("\n======= Train Connections =======");
-//                    displayResultsAsTable(results);
-//
-//                }
-//            }
-//        }
+
         return null;
     }
 
@@ -313,66 +251,6 @@ public class MainMenuUI {
                     }
                 }
             }
-                /*
-                List<TrainConnection> layoverConnection1 = results.get(i).getConnections();
-
-                String[] time = layoverConnection1.get(0).getArrivalTime().split(":");
-                int arrival1 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-                time = results.get(i).getLayover().split(":");
-                int layover1 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-
-                if (arrival1>=360 && arrival1<1080) { // Between 6h and 18h
-                    if (layover1<=120) { // Layover less than 2h
-                        if (results.get(i).getConnections().size()==2) { // 1 Layover
-                            trips.add(results.get(i));
-                        }
-                        else { // 2 Layover
-
-                            time = layoverConnection1.get(1).getArrivalTime().split(":");
-                            int arrival2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-                            time = results.get(i).getLayover().split(":");
-                            int layover2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-
-                            if (arrival2>=360 && arrival2<1080) {
-                                if (layover2 <= 120) {
-                                    trips.add(results.get(i));
-                                }
-                            }
-                            else {
-                                if (layover2 <= 30) {
-                                    trips.add(results.get(i));
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    if (layover1<=30) {
-                        if (results.get(i).getConnections().size()==2) {
-                            trips.add(results.get(i));
-                        }
-                        else { // 2 Layover
-
-                            time = layoverConnection1.get(1).getArrivalTime().split(":");
-                            int arrival2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-                            time = results.get(i).getLayover().split(":");
-                            int layover2 = Integer.parseInt(time[0].trim()) * 60 + Integer.parseInt(time[1].trim());
-
-                            if (arrival2>=360 && arrival2<1080) {
-                                if (layover2 <= 120) {
-                                    trips.add(results.get(i));
-                                }
-                            }
-                            else {
-                                if (layover2 <= 30) {
-                                    trips.add(results.get(i));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-                 */
         }
         return trips;
     }
