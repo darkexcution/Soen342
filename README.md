@@ -22,6 +22,7 @@ The **Documentation Directory** contains:
 - **Interaction Diagrams** 
 - **Class Diagram**  
 - **State UML** (please download the raw file to properly look at it)
+- **OCL expression**  
   
   ## In SOEN 342: 
 - **Demo Video** ( need to download Soen 342 project Demo.mov )  
