@@ -28,4 +28,4 @@ The **Documentation Directory** contains:
 - **Demo Video** ( need to download Soen 342 project Demo.mov )  
 
 ## Database  
-We used postgresql as our database and the queries are located in the database folder spefically in the file called schema.sql  
+We used postgresql as our database and the queries are located in the database folder specifically in the file called schema.sql  
